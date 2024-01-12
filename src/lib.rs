@@ -147,6 +147,7 @@ pub mod layout {
         //     "f1: {:p}, f2: {:p}, f3: {:p}, f4: {:p}",
         //     &_p.f1, &_p.f2, &_p.f3, &_p.f4
         // );
+        // TODO transparent layout
     }
 
     pub fn array_layout() {
@@ -163,6 +164,9 @@ pub mod layout {
         let arr = [a, b, c];
         let mut i = 0;
         loop {
+            if i == arr.len(){
+                break;
+            }
             println!("element {i}: {:p}", &arr[i]);
             i += 1;
         }
