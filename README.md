@@ -1,6 +1,9 @@
 # Reading Note of RfR
 
+## Progress
+
 1. 2024-01-11, ![](https://geps.dev/progress/10)
+1. 2024-01-12, ![](https://geps.dev/progress/12)
 
 ## FIX
 
