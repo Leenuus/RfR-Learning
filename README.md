@@ -17,7 +17,8 @@ For traditional programming languages like `C`, __pass by value__ is the default
 3. interior mutability, `unsafeCell`; These normally fall into two categories: 
 4. Listing 1-10 code, thing about multiple lifetimes
 5. `false sharing` in concurrent
-6. 
+6. `Vtable` struct
+7. `Object safe`, __To be object-safe, none of a trait’s methods can be generic or use the Self type__
 
 ### Memory Leak
 
@@ -68,3 +69,32 @@ Memory leak do things in Rust, and call `leak` on `Box` type gives you static re
 > Array Represented as a contiguous sequence of the contained type with no padding between the elements. 
 > Union Layout is chosen independently for each variant. Alignment is the maximum across all the variants. 
 > Enumeration Same as union, but with one additional hidden shared field that stores the enum variant discriminant. The discriminant is the value the code uses to determine which of the enum variants a given value holds. The size of the discriminant field depends on the number of variants.
+
+## Types
+
+### Static Dispatch
+
+1. `Static Dispatch`, when you use `impl Trait` or `T: impl Trait`, the compiler copies and pastes correspoding implementations for you. Note that, the methods you don't use won't get copied; you only pay for what you use.
+2. `Static Dispatch` is efficient when the program is running, but it does increase compilation time because of larger amount of code to compile
+3. `Non-Generic inner functions`, some parts of a function's logic is not related to type, so it can be extracted as an inner function. Doing so, this part of code don't have to be copied and pasted for multiple times, compiler will do some optimizations.
+
+### Dynamic Dispatch
+
+1. Some types are not sized, meaning it does not have known size at compile time, for example, slice
+2. `?Sized` means maybe not size; `!Sized` means unknown size
+3. `Fat pointer`, or `Wide pointer`, store not only the pointer to the type, but also the `length` of the type, for example, `Arc` and `Box`
+4. `&dyn Trait`, means a fat pointer storing both `Vtable` and __pointer to the object__; For `Vtable` in Rust, refer to [doc of `std::task::RawWakeVTable`](TODO)
+5. Dynamic dispatch cuts compile time, but brings overhead in runtime to look up the function to call via `Vtable`
+
+### Generic Trait
+
+1. Two ways: `associate type` or `generic type parameter`
+2. Use `associate type` to guarantee there is only one implementation for a type; `generic type parameter` can cover more than one type once, adding overhead to compiler to find which implementation a type should use when compling.
+3. `Blanket implementations`, only the library which defines the trait can do something like this:
+
+```Rust
+impl MyTrait for T
+where T: ...
+{}
+```
+4. 
