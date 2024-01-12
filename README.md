@@ -85,7 +85,7 @@ Memory leak do things in Rust, and call `leak` on `Box` type gives you static re
 
 1. Some types are not sized, meaning it does not have known size at compile time, for example, slice
 2. `?Sized` means maybe not size; `!Sized` means unknown size
-3. `Fat pointer`, or `Wide pointer`, store not only the pointer to the type, but also the `length` of the type, for example, `Arc` and `Box`
+3. `Fat pointer`, or `Wide pointer`, store not only the pointer to the generic type, but also the __additional information to find the right implementation of method__  of the type, for example, `Arc` and `Box`
 4. `&dyn Trait`, means a fat pointer storing both `Vtable` and __pointer to the object__; For `Vtable` in Rust, refer to [doc of `std::task::RawWakeVTable`](TODO)
 5. Dynamic dispatch cuts compile time, but brings overhead in runtime to look up the function to call via `Vtable`
 
